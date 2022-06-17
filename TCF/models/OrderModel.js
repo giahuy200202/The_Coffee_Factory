@@ -13,6 +13,6 @@ const orderSchema = new mongoose.Schema({
     dateOrder: {type: String,}
 })
 
-const Order = mongoose.model('payment_history', orderSchema)
+const Order = mongoose.model('payment_historyy', orderSchema)
 
 module.exports = Order

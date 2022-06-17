@@ -1,5 +1,6 @@
 const Order = require ('../models/OrderModel.js')
 const CatchAsync = require ('../utils/CatchAsync.js')
+const AppError = require ('../utils/AppError.js')
 
 exports.Order_Handle = CatchAsync(async (req, res, next)=>{
     var dateTime = require('node-datetime').create().format('H:M:S d-m-Y')
@@ -34,11 +35,14 @@ exports.History_Admin = CatchAsync(async (req, res,next)=>{
     })
 })
 
-exports.History_User =  CatchAsync(async (req, res,next)=>{
-    const Orders=await Order.find(
-        {idUser: req.body.id}, 
+exports.History_User = CatchAsync(async (req, res,next)=>{
+    const Orders = await Order.find(
+        {idUser: req.body.idUser}, 
         {'_id':false, '__v':false, 'idUser': false, 'userName': false, 'address': false, 'phone': false}
     )
+    if(Orders.length===0){ 
+        return next(new AppError('No tour with this ID', 404)) 
+    }
     res.status(200).json({
         status: 'success',
         size: Orders.length,
