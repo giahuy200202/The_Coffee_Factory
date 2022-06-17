@@ -1,6 +1,7 @@
 const Order = require ('../models/OrderModel.js')
+const CatchAsync = require ('../utils/CatchAsync.js')
 
-exports.Order_Handle = async (req, res, next)=>{
+exports.Order_Handle = CatchAsync(async (req, res, next)=>{
     var dateTime = require('node-datetime').create().format('H:M:S d-m-Y')
     const reqData=req.body, dataGet=[]
     for(let i=0; i<reqData.length; i++){
@@ -22,18 +23,18 @@ exports.Order_Handle = async (req, res, next)=>{
         status: 'success',
         newOrder
     })
-}
+})
 
-exports.History_Admin = async (req, res,next)=>{
+exports.History_Admin = CatchAsync(async (req, res,next)=>{
     const allOrders=await Order.find({}, {'_id':false, '__v':false})
     res.status(200).json({
         status: 'success',
         size: allOrders.length,
         History: allOrders
     })
-}
+})
 
-exports.History_User =  async (req, res,next)=>{
+exports.History_User =  CatchAsync(async (req, res,next)=>{
     const Orders=await Order.find(
         {idUser: req.body.id}, 
         {'_id':false, '__v':false, 'idUser': false, 'userName': false, 'address': false, 'phone': false}
@@ -43,5 +44,5 @@ exports.History_User =  async (req, res,next)=>{
         size: Orders.length,
         History: Orders
     })
-}
+})
 

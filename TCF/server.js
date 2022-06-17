@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const dotenv = require('dotenv')
 const app = require('./app.js')
 
 const DB='mongodb+srv://giahuy200202:0904974018huyyy@cluster0.mooayuv.mongodb.net/The-Coffee-Factory?retryWrites=true&w=majority'
