@@ -24,4 +24,12 @@ exports.Order_Handle = async (req, res, next)=>{
     })
 }
 
+exports.History_Admin = async (req, res,next)=>{
+    const allOrders=await Order.find({}, {'_id':false, '__v':false})
+    res.status(200).json({
+        status: 'success',
+        size: allOrders.length,
+        History: allOrders
+    })
+}
 
