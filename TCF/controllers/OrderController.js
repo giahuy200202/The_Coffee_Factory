@@ -33,3 +33,15 @@ exports.History_Admin = async (req, res,next)=>{
     })
 }
 
+exports.History_User =  async (req, res,next)=>{
+    const Orders=await Order.find(
+        {idUser: req.body.id}, 
+        {'_id':false, '__v':false, 'idUser': false, 'userName': false, 'address': false, 'phone': false}
+    )
+    res.status(200).json({
+        status: 'success',
+        size: Orders.length,
+        History: Orders
+    })
+}
+
