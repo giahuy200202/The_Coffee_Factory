@@ -12,5 +12,4 @@ route.get('/history-ad', OrderController.History_Admin)
 //Order History for User
 route.post('/history-user', OrderController.History_User)
 
-
 module.exports = route
