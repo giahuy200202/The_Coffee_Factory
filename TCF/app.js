@@ -6,7 +6,7 @@ const AppError = require('./utils/AppError')
 
 app.use(express.json())
 
-app.use('/a', OrderRoutes)
+app.use('/tcf/v1/order', OrderRoutes);
 
 app.all('*', (req, res, next)=>{
     next(new AppError('Url is not available', 404))

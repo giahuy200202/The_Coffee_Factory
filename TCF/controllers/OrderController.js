@@ -2,29 +2,26 @@ const Order = require ('../models/OrderModel.js')
 const CatchAsync = require ('../utils/CatchAsync.js')
 const AppError = require ('../utils/AppError.js')
 
-exports.Order_Handle = CatchAsync(async (req, res, next)=>{
-    var dateTime = require('node-datetime').create().format('H:M:S d-m-Y')
-    const reqData=req.body, dataGet=[]
-    for(let i=0; i<reqData.length; i++){
-        dataGet.push({
-            status: "Unprocessed",
-            idUser: reqData[i].idUser,
-            userName: reqData[i].userName,
-            address: reqData[i].address,
-            phone: reqData[i].phone,
-            productName: reqData[i].productName,
-            toppings: reqData[i].toppings,
-            quantity: reqData[i].quantity,
-            price: reqData[i].price,
-            dateOrder: dateTime
-        })
-    }
-    const newOrder= await Order.insertMany(dataGet)
+exports.Order_Handle = CatchAsync(async (req, res, next) => {
+    const dateTime = require('node-datetime').create().format('H:M:S d-m-Y');
+    const dataGet = {
+        status: 'Unprocessed',
+        idUser: req.body.idUser,
+        userName: req.body.userName,
+        address: req.body.address,
+        phone: req.body.phone,
+        products: [...req.body.products],
+        totalPrice: req.body.totalPrice,
+        noteAll: req.body.noteAll,
+        dateOrder: dateTime,
+    };
+    const newOrder = await Order.create(dataGet);
     res.status(200).json({
-        status: 'success',
-        newOrder
-    })
-})
+      status: 'success',
+      newOrder,
+    });
+});
+  
 
 exports.History_Admin = CatchAsync(async (req, res,next)=>{
     const allOrders=await Order.find({}, {'_id':false, '__v':false})
@@ -41,7 +38,7 @@ exports.History_User = CatchAsync(async (req, res,next)=>{
         {'_id':false, '__v':false, 'idUser': false, 'userName': false, 'address': false, 'phone': false}
     )
     if(Orders.length===0){ 
-        return next(new AppError('No tour with this ID', 404)) 
+        return next(new AppError('No user with this ID', 404)) 
     }
     res.status(200).json({
         status: 'success',
