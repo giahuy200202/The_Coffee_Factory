@@ -1,15 +1,10 @@
-const OrderController = require ('../controllers/OrderController.js')
-const express = require('express')
+const express = require('express');
+const orderController = require('../controllers/orderController');
+const authController = require('../controllers/authController');
 
-const route = express.Router()
+const router = express.Router();
 
 //Add Order to History
-route.post('/orders', OrderController.Order_Handle)
+router.post('/orders', authController.protect, orderController.Order_Handle);
 
-//Orders History for Admin
-route.get('/history-ad', OrderController.History_Admin)
-
-//Order History for User
-route.post('/history-user', OrderController.History_User)
-
-module.exports = route
+module.exports = router;

@@ -1,22 +1,7 @@
 const mongoose = require('mongoose');
 
-const orderSchema = new mongoose.Schema({
-  status: { type: String },
-
-  //Infomation
-  idUser: { type: String},
-  paymentMethod: { type: String },
-  userName: { type: String},
-  phone: { type: String, required: [true, 'Must have Phone Number'] },
-  address: { type: String, required: [true, 'Must have Product Name'] },
-  noteAll: { type: String },
-  methodDelivery: {type: String},
-  storeLocation: {type: String},
-  promotion: {type: String},
-  totalPrice: {type: Number},
-  dateOrder: { type: String },
-  
-  // Product 
+const cartScheme = new mongoose.Schema({
+  idUser: { type: String },
   products: [
     {
       productName: { type: String, required: [true, 'Must have Product Name'] },
@@ -42,12 +27,12 @@ const orderSchema = new mongoose.Schema({
         },
       },
       note: { type: String },
-      image: { type: String }
-    },  
+      image: { type: String },
+    },
   ],
-
+  totalPrice:{type:Number}
 });
 
-const Order = mongoose.model('payment_history', orderSchema);
+const Cart = mongoose.model('shopping_cart', cartScheme);
 
-module.exports = Order;
+module.exports = Cart;
